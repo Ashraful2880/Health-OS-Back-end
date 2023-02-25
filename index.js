@@ -84,6 +84,20 @@ async function run() {
       res.send(allOrders);
     });
 
+    // Get All Customers
+
+    app.get("/customers", async (req, res) => {
+      const allCustomers = await customers.find({}).toArray();
+      res.send(allCustomers);
+    });
+
+    // Get All Customers
+
+    app.get("/users", async (req, res) => {
+      const allUsers = await users.find({}).toArray();
+      res.send(allUsers);
+    });
+
     //<------------ Get All Products by Category ------------->
 
     /*  app.get("/findProducts", async (req, res) => {
