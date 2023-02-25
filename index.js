@@ -66,6 +66,7 @@ async function run() {
             category: updateReq.category,
             slug: updateReq.slug,
             SKU: updateReq.SKU,
+            productImage: updateReq.productImage,
           },
         },
         { upsert: true }
