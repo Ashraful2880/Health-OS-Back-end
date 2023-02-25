@@ -55,9 +55,22 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const updateReq = req.body;
-      console.log(query);
-      // const options = { upsert: true };
-      res.json("singleProduct");
+      const result = await Products.updateOne(
+        query,
+        {
+          $set: {
+            rating: updateReq.rating,
+            name: updateReq.name,
+            price: updateReq.price,
+            offerPrice: updateReq.offerPrice,
+            category: updateReq.category,
+            slug: updateReq.slug,
+            SKU: updateReq.SKU,
+          },
+        },
+        { upsert: true }
+      );
+      res.json("result");
     });
 
     //<------------ Delete Single Products ------------->
@@ -73,7 +86,7 @@ async function run() {
 
     app.post("/products", async (req, res) => {
       const newProduct = req.body;
-      const result = await allCollections.insertOne(newProduct);
+      const result = await Products.insertOne(newProduct);
       res.json(result);
     });
 
