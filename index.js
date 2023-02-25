@@ -158,12 +158,12 @@ async function run() {
 
     //<------------ Find Products Information For Cart ------------->
 
-    /* app.get("/addToCart/:id", async (req, res) => {
+    app.get("/addToCart/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const showOrder = await Products.findOne(query);
       res.json(showOrder);
-    }); */
+    });
 
     // Initialize Payment
     /* 
