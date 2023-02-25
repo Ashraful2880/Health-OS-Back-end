@@ -42,6 +42,16 @@ async function run() {
       res.send(FindProducts);
     });
 
+    //<------------ Get Single Product By ID ------------->
+
+    app.get("/products/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const singleProduct = await Products.findOne(query);
+      console.log(singleProduct);
+      res.json(singleProduct);
+    });
+
     //<------------ Post Products ------------->
 
     //<------------ Get All Products by Category ------------->
