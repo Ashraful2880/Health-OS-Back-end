@@ -31,9 +31,7 @@ async function run() {
     const blogs = database.collection(`${process.env.BLOG_COLLECTION}`);
     const customers = database.collection(`${process.env.CUSTOMER_COLLECTION}`);
     const users = database.collection(`${process.env.USER_COLLECTION}`);
-    const OrderCollections = database.collection(
-      `${process.env.ORDER_COLLECTION}`
-    );
+    const Orders = database.collection(`${process.env.ORDER_COLLECTION}`);
 
     //<------------ Get All Products ------------->
 
@@ -48,11 +46,43 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const singleProduct = await Products.findOne(query);
-      console.log(singleProduct);
       res.json(singleProduct);
     });
 
-    //<------------ Post Products ------------->
+    //<------------ Edit Single Products ------------->
+
+    app.put("/products/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const updateReq = req.body;
+      console.log(query);
+      // const options = { upsert: true };
+      res.json("singleProduct");
+    });
+
+    //<------------ Delete Single Products ------------->
+
+    app.delete("/products/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const remove = await Products.deleteOne(query);
+      res.json(remove);
+    });
+
+    //<------------ Post a New Product ------------->
+
+    app.post("/products", async (req, res) => {
+      const newProduct = req.body;
+      const result = await allCollections.insertOne(newProduct);
+      res.json(result);
+    });
+
+    // Get All Orders
+
+    app.get("/orders", async (req, res) => {
+      const allOrders = await Orders.find({}).toArray();
+      res.send(allOrders);
+    });
 
     //<------------ Get All Products by Category ------------->
 
