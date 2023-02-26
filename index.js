@@ -105,7 +105,15 @@ async function run() {
       res.send(allCustomers);
     });
 
-    // Get All Customers
+    // Post New Customer
+
+    app.post("/customers", async (req, res) => {
+      const newCustomer = req.body;
+      const result = await customers.insertOne(newCustomer);
+      res.send("newCustomer");
+    });
+
+    // Get All Users
 
     app.get("/users", async (req, res) => {
       const allUsers = await users.find({}).toArray();
