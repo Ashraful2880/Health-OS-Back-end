@@ -98,6 +98,22 @@ async function run() {
       res.send(allOrders);
     });
 
+    // Approved An Order
+
+    app.put("/order/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const orderStatus = req.body;
+      const result = await Orders.updateOne(
+        query,
+        {
+          $set: { status: orderStatus.status },
+        },
+        { upsert: true }
+      );
+      res.json(result);
+    });
+
     // Get All Customers
 
     app.get("/customers", async (req, res) => {
