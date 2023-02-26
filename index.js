@@ -113,13 +113,22 @@ async function run() {
       const singleCustomer = await customers.findOne(query);
       res.json("singleCustomer");
     });
-    
+
     // Post New Customer
 
     app.post("/customers", async (req, res) => {
       const newCustomer = req.body;
       const result = await customers.insertOne(newCustomer);
       res.send("newCustomer");
+    });
+
+    //<------------ Delete a Customer ------------->
+
+    app.delete("/customer/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const remove = await customers.deleteOne(query);
+      res.json(remove);
     });
 
     // Get All Users
