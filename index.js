@@ -105,6 +105,14 @@ async function run() {
       res.send(allCustomers);
     });
 
+    //<------------ Get Single Customer By ID ------------->
+
+    app.get("/customer/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const singleCustomer = await customers.findOne(query);
+      res.json(singleCustomer);
+    });
     // Post New Customer
 
     app.post("/customers", async (req, res) => {
