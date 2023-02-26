@@ -71,7 +71,7 @@ async function run() {
         },
         { upsert: true }
       );
-      res.json("result");
+      res.json(result);
     });
 
     //<------------ Delete Single Products ------------->
@@ -111,7 +111,7 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const singleCustomer = await customers.findOne(query);
-      res.json("singleCustomer");
+      res.json(singleCustomer);
     });
 
     // Post New Customer
@@ -119,7 +119,7 @@ async function run() {
     app.post("/customers", async (req, res) => {
       const newCustomer = req.body;
       const result = await customers.insertOne(newCustomer);
-      res.send("newCustomer");
+      res.send(newCustomer);
     });
 
     //<------------ Delete a Customer ------------->
