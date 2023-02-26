@@ -111,8 +111,9 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const singleCustomer = await customers.findOne(query);
-      res.json(singleCustomer);
+      res.json("singleCustomer");
     });
+    
     // Post New Customer
 
     app.post("/customers", async (req, res) => {
