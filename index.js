@@ -28,6 +28,9 @@ async function run() {
     //<------------ Database All Collections ------------->
     const database = client.db(`${process.env.DB_NAME}`);
     const Products = database.collection(`${process.env.PRODUCT_COLLECTION}`);
+    const ProductCategory = database.collection(
+      `${process.env.PRODUCT_CATEGORY_COLLECTION}`
+    );
     const Orders = database.collection(`${process.env.ORDER_COLLECTION}`);
     const customers = database.collection(`${process.env.CUSTOMER_COLLECTION}`);
     const users = database.collection(`${process.env.USER_COLLECTION}`);
@@ -96,7 +99,7 @@ async function run() {
     //<------------ Get Products Category ------------->
 
     app.get("/productsCategory", async (req, res) => {
-      const allProducts = await Products.find({}).toArray();
+      const allProducts = await ProductCategory.find({}).toArray();
       res.send(allProducts);
     });
 
