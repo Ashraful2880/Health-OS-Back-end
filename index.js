@@ -99,8 +99,8 @@ async function run() {
     //<------------ Get Products Category ------------->
 
     app.get("/productsCategory", async (req, res) => {
-      const allProducts = await ProductCategory.find({}).toArray();
-      res.send(allProducts);
+      const allCategory = await ProductCategory.find({}).toArray();
+      res.send(allCategory);
     });
 
     //<------------ Get All Products by Category ------------->
