@@ -154,16 +154,23 @@ async function run() {
       res.send(allUsers);
     });
 
+    //<------------ Get All Products Category ------------->
+
+    app.get("/productsCategory", async (req, res) => {
+      const allProducts = await Products.find({}).toArray();
+      res.send(allProducts);
+    });
+
     //<------------ Get All Products by Category ------------->
 
-    /*  app.get("/findProducts", async (req, res) => {
+    app.get("/findProducts", async (req, res) => {
       const search = req.query.category;
       const products = await Products.find({}).toArray();
       const findProducts = products?.filter((value) =>
         value?.category?.includes(search)
       );
       res.send(findProducts);
-    }); */
+    });
 
     //<--------- Get Featured Products ---------->
 
