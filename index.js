@@ -188,6 +188,13 @@ async function run() {
       res.json(result);
     });
 
+    //<------------ Post a New Product ------------->
+
+    app.post("/orders", async (req, res) => {
+      const newOrder = req.body;
+      const result = await Orders.insertOne(newOrder);
+      res.json(result);
+    });
     //<--------------- Customers Section API --------------->//
 
     // Get All Customers
