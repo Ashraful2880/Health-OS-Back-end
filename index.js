@@ -7,6 +7,8 @@ const { v4: uuidv4 } = require("uuid");
 const app = express();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 app.use(cors());
 app.use(express.json());
@@ -231,6 +233,73 @@ async function run() {
     });
 
     //<--------------- Users Section API --------------->//
+
+    // Signup New User
+
+    app.post("/signup", async (req, res) => {
+      try {
+        // Hash the password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+
+        // Create a new user document
+        const user = {
+          phone: req.body.phone,
+          password: hashedPassword,
+        };
+        const findUser = await users.findOne({ phone: req.body.phone });
+        if (findUser) {
+          return res.status(400).send({ message: "User already exists" });
+        } else {
+          // Insert the user into the database
+          const result = await users.insertOne(user);
+          // Send a success response
+          res.status(201).send(result);
+        }
+      } catch (err) {
+        // Send an error response
+        res.status(400).send(err);
+      }
+    });
+
+    // Login Existing User
+
+    // Handle POST requests to /login
+    app.post("/login", async (req, res) => {
+      try {
+        // Find the user by phone number
+        const user = await users.findOne({ phone: req.body.phone });
+
+        // If the user is not found, send an error response
+        if (!user) {
+          return res
+            .status(401)
+            .send({ message: "Phone number or password is incorrect" });
+        }
+
+        // Compare the password with the hashed password in the database
+        const isPasswordValid = await bcrypt.compare(
+          req.body.password,
+          user.password
+        );
+
+        // If the password is not valid, send an error response
+        if (!isPasswordValid) {
+          return res
+            .status(401)
+            .send({ message: "Phone number or password is incorrect" });
+        }
+
+        // Generate a JWT token
+        const token = jwt.sign({ phone: user.phone }, "secret");
+
+        // Send the token in the response
+        res.send({ token, phone: user.phone });
+      } catch (err) {
+        // Send an error response
+        res.status(400).send(err);
+      }
+    });
 
     // Get All Users
 
