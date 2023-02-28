@@ -244,6 +244,9 @@ async function run() {
 
         // Create a new user document
         const user = {
+          name: req.body.name,
+          username: req.body.username,
+          email: req.body.email,
           phone: req.body.phone,
           password: hashedPassword,
         };
