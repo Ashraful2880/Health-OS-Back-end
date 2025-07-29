@@ -1,3 +1,8 @@
+## 🕰️ Project History
+
+- 🔹 Originally developed in: **2019**
+- 🔹 Last updated/refactored in: **2025** (backend improvements and minor changes)
+
 # Health-OS Backend API
 
 ![Node.js](https://img.shields.io/badge/Node.js-v14%2B-green)
