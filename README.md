@@ -37,7 +37,12 @@ A professional Node.js/Express REST API for the Health-OS platform. This backend
    ```bash
    git clone https://github.com/[your-username]/Health-OS-Back-End.git
    cd Health-OS-Back-End
-Install dependencies:
+   
+## Installation & Setup
+
+### Install dependencies
+```bash
+npm install
 
 bash
 npm install
