@@ -1,18 +1,23 @@
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.eb0xvvp.mongodb.net/?retryWrites=true&w=majority`;
+const mongoUri =
+  process.env.MONGODB_URI ||
+  `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.eb0xvvp.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-async function connectDB() {
-  if (!client.isConnected && typeof client.connect === 'function') {
-    await client.connect();
-  }
-  return client.db(process.env.DB_NAME);
+function connectDB() {
+  return mongoose.connect(mongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 }
 
-module.exports = { client, connectDB };
+mongoose.connection.on('connected', () => {
+  console.log('Mongoose connected to MongoDB');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('Mongoose connection error:', err);
+});
+
+module.exports = { connectDB };

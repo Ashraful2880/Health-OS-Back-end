@@ -1,15 +1,8 @@
-const { ObjectId } = require('mongodb');
-const { connectDB } = require('../config/db');
-
-async function getOrdersCollection() {
-  const db = await connectDB();
-  return db.collection(process.env.ORDER_COLLECTION);
-}
+const Order = require('./order.model');
 
 exports.getAllOrders = async (req, res) => {
   try {
-    const Orders = await getOrdersCollection();
-    const orders = await Orders.find({}).toArray();
+    const orders = await Order.find({});
     res.send(orders);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch orders' });
@@ -18,9 +11,8 @@ exports.getAllOrders = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
   try {
-    const Orders = await getOrdersCollection();
-    const newOrder = req.body;
-    const result = await Orders.insertOne(newOrder);
+    const newOrder = new Order(req.body);
+    const result = await newOrder.save();
     res.status(201).json(result);
   } catch (err) {
     res.status(500).json({ error: 'Failed to create order' });
@@ -29,13 +21,12 @@ exports.createOrder = async (req, res) => {
 
 exports.updateOrderStatus = async (req, res) => {
   try {
-    const Orders = await getOrdersCollection();
     const id = req.params.id;
     const orderStatus = req.body;
-    const result = await Orders.updateOne(
-      { _id: ObjectId(id) },
+    const result = await Order.findByIdAndUpdate(
+      id,
       { $set: { status: orderStatus.status } },
-      { upsert: true }
+      { new: true, upsert: true }
     );
     res.json(result);
   } catch (err) {
