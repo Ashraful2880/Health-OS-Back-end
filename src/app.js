@@ -3,14 +3,21 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 
-
 // Database connection is handled in src/config/db.js
 
 const app = express();
 // Middleware
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "http://localhost:3002",
+      "http://localhost:3003",
+      "http://localhost:3004",
+      "http://localhost:3005",
+      "https://health-os.netlify.app",
+    ],
     credentials: true,
   })
 );
